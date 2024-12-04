@@ -11,10 +11,10 @@
     }
   },
   "Resources": {
-    "ReadOnlyRole": {
+    "StratusGridReadOnlyRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
-        "RoleName": "RestrictedReadOnlyRole",
+        "RoleName": "StratusGridRestrictedReadOnlyRole",
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
@@ -31,7 +31,7 @@
         },
         "Policies": [
           {
-            "PolicyName": "RestrictedReadOnlyPolicy",
+            "PolicyName": "StratusGridRestrictedReadOnlyPolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
@@ -84,7 +84,6 @@
                     "logs:DescribeLogStreams",
                     "redshift:DescribeClusters",
                     "redshift:DescribeTable",
-                    "redshift:DescribeDatabase",
                     "glacier:DescribeVault",
                     "glacier:GetVaultLock",
                     "glacier:InitiateJob",
@@ -102,11 +101,10 @@
   },
   "Outputs": {
     "RoleArn": {
-      "Description": "ARN of the created RestrictedReadOnlyRole",
+      "Description": "ARN of the created StratusGridRestrictedReadOnlyRole",
       "Value": {
-        "Fn::GetAtt": ["ReadOnlyRole", "Arn"]
+        "Fn::GetAtt": ["StratusGridReadOnlyRole", "Arn"]
       }
     }
   }
 }
-
