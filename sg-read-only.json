@@ -29,6 +29,9 @@
             }
           ]
         },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/ReadOnlyAccess"
+        ],
         "Policies": [
           {
             "PolicyName": "StratusGridRestrictedReadOnlyPolicy",
@@ -36,59 +39,51 @@
               "Version": "2012-10-17",
               "Statement": [
                 {
-                  "Effect": "Allow",
+                  "Sid":    "DenyReadOnlySecrets",
+                  "Effect": "Deny",
                   "Action": [
-                    "ec2:Describe*",
-                    "rds:Describe*",
-                    "cloudwatch:Get*",
-                    "cloudwatch:List*",
-                    "iam:List*",
-                    "iam:Get*",
-                    "logs:Describe*",
-                    "logs:Get*",
-                    "logs:List*",
-                    "sns:List*",
-                    "sns:Get*",
-                    "sqs:List*",
-                    "sqs:Get*",
-                    "ssm:GetParameter",
-                    "ssm:GetParameters",
-                    "kms:ListKeys",
-                    "kms:DescribeKey"
+                    "cognito-identity:GetCredentialsForIdentity",
+                    "cognito-identity:GetId",
+                    "cognito-identity:GetOpenIdToken",
+                    "ec2:GetPasswordData",
+                    "ecr:GetAuthorizationToken",
+                    "redshift:GetClusterCredentials",
+                    "secretsmanager:DescribeSecret",
+                    "secretsmanager:GetSecretValue",
+                    "ssm:GetParameter*"
                   ],
                   "Resource": "*"
                 },
                 {
+                  "Sid":    "DenyReadOnlyDataRetrieval",
                   "Effect": "Deny",
                   "Action": [
-                    "s3:GetObject",
-                    "s3:GetObjectVersion",
-                    "dynamodb:GetItem",
-                    "dynamodb:BatchGetItem",
-                    "dynamodb:Query",
-                    "dynamodb:Scan",
-                    "secretsmanager:GetSecretValue",
-                    "secretsmanager:DescribeSecret",
-                    "rds:DescribeDBSnapshots",
-                    "rds:DownloadDBLogFilePortion",
-                    "rds:DescribeDBInstances",
-                    "es:DescribeElasticsearchDomain",
-                    "es:ESHttpGet",
-                    "es:ESHttpPost",
                     "cloudtrail:LookupEvents",
                     "cloudformation:DescribeStacks",
                     "cloudformation:ListStackResources",
                     "cloudformation:DescribeStackResources",
+                    "dynamodb:GetItem",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "elasticbeanstalk:DescribeConfigurationSettings",
+                    "elasticbeanstalk:DescribeEnvironmentResources",
+                    "es:DescribeElasticsearchDomain",
+                    "es:ESHttpGet",
+                    "es:ESHttpPost",
+                    "glacier:DescribeVault",
+                    "glacier:GetVaultLock",
+                    "glacier:InitiateJob",
                     "logs:GetLogEvents",
                     "logs:FilterLogEvents",
                     "logs:DescribeLogStreams",
                     "redshift:DescribeClusters",
                     "redshift:DescribeTable",
-                    "glacier:DescribeVault",
-                    "glacier:GetVaultLock",
-                    "glacier:InitiateJob",
-                    "elasticbeanstalk:DescribeConfigurationSettings",
-                    "elasticbeanstalk:DescribeEnvironmentResources"
+                    "rds:DescribeDBSnapshots",
+                    "rds:DownloadDBLogFilePortion",
+                    "rds:DescribeDBInstances",
+                    "s3:GetObject",
+                    "s3:GetObjectVersion"
                   ],
                   "Resource": "*"
                 }
