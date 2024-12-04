@@ -8,10 +8,10 @@
         }
     },
     "Resources": {
-        "ChangeManagementRole": {
+        "StratusGridChangeManagementRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "RoleName": "WriteRestricted",
+                "RoleName": "StratusGridWriteRestricted",
                 "AssumeRolePolicyDocument": {
                     "Version": "2012-10-17",
                     "Statement": [
@@ -28,7 +28,7 @@
                 },
                 "Policies": [
                     {
-                        "PolicyName": "WriteRestrictedPolicy",
+                        "PolicyName": "StratusGridWriteRestrictedPolicy",
                         "PolicyDocument": {
                             "Version": "2012-10-17",
                             "Statement": [
