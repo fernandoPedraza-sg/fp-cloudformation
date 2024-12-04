@@ -1,0 +1,112 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Creates a role with restricted read-only access, preventing access to sensitive data in various AWS services.",
+  "Parameters": {
+    "AWSAccountID": {
+      "Description": "The AWS Account ID where the role will be assumed from",
+      "Type": "String",
+      "MinLength": "12",
+      "MaxLength": "12",
+      "ConstraintDescription": "Must be a 12-digit AWS account ID."
+    }
+  },
+  "Resources": {
+    "ReadOnlyRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": "RestrictedReadOnlyRole",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Sub": "arn:aws:iam::${AWSAccountID}:root"
+                }
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "RestrictedReadOnlyPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ec2:Describe*",
+                    "rds:Describe*",
+                    "cloudwatch:Get*",
+                    "cloudwatch:List*",
+                    "iam:List*",
+                    "iam:Get*",
+                    "logs:Describe*",
+                    "logs:Get*",
+                    "logs:List*",
+                    "sns:List*",
+                    "sns:Get*",
+                    "sqs:List*",
+                    "sqs:Get*",
+                    "ssm:GetParameter",
+                    "ssm:GetParameters",
+                    "kms:ListKeys",
+                    "kms:DescribeKey"
+                  ],
+                  "Resource": "*"
+                },
+                {
+                  "Effect": "Deny",
+                  "Action": [
+                    "s3:GetObject",
+                    "s3:GetObjectVersion",
+                    "dynamodb:GetItem",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "secretsmanager:GetSecretValue",
+                    "secretsmanager:DescribeSecret",
+                    "rds:DescribeDBSnapshots",
+                    "rds:DownloadDBLogFilePortion",
+                    "rds:DescribeDBInstances",
+                    "es:DescribeElasticsearchDomain",
+                    "es:ESHttpGet",
+                    "es:ESHttpPost",
+                    "cloudtrail:LookupEvents",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:ListStackResources",
+                    "cloudformation:DescribeStackResources",
+                    "logs:GetLogEvents",
+                    "logs:FilterLogEvents",
+                    "logs:DescribeLogStreams",
+                    "redshift:DescribeClusters",
+                    "redshift:DescribeTable",
+                    "redshift:DescribeDatabase",
+                    "glacier:DescribeVault",
+                    "glacier:GetVaultLock",
+                    "glacier:InitiateJob",
+                    "elasticbeanstalk:DescribeConfigurationSettings",
+                    "elasticbeanstalk:DescribeEnvironmentResources"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "RoleArn": {
+      "Description": "ARN of the created RestrictedReadOnlyRole",
+      "Value": {
+        "Fn::GetAtt": ["ReadOnlyRole", "Arn"]
+      }
+    }
+  }
+}
+
