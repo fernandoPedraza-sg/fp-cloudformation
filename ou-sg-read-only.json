@@ -1,0 +1,94 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Creates a role with restricted read-only access, preventing access to sensitive data in various AWS services.",
+  "Parameters": {
+    "AWSAccountIds": {
+      "Description": "The AWS Account ID where the role will be assumed from",
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "StratusGridReadOnlyRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": "StratusGridRestrictedReadOnlyRole",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Sub": "arn:aws:iam::${AWSAccountIds}:root"
+                }
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/ReadOnlyAccess"
+        ],
+        "Policies": [
+          {
+            "PolicyName": "StratusGridRestrictedReadOnlyPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Sid": "DenyReadOnlySecrets",
+                  "Effect": "Deny",
+                  "Action": [
+                    "cognito-identity:GetCredentialsForIdentity",
+                    "cognito-identity:GetId",
+                    "cognito-identity:GetOpenIdToken",
+                    "ec2:GetPasswordData",
+                    "ecr:GetAuthorizationToken",
+                    "redshift:GetClusterCredentials",
+                    "secretsmanager:DescribeSecret",
+                    "secretsmanager:GetSecretValue",
+                    "ssm:GetParameter*"
+                  ],
+                  "Resource": "*"
+                },
+                {
+                  "Sid": "DenyReadOnlyDataRetrieval",
+                  "Effect": "Deny",
+                  "Action": [
+                    "cloudtrail:LookupEvents",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:ListStackResources",
+                    "cloudformation:DescribeStackResources",
+                    "dynamodb:GetItem",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "elasticbeanstalk:DescribeConfigurationSettings",
+                    "elasticbeanstalk:DescribeEnvironmentResources",
+                    "es:DescribeElasticsearchDomain",
+                    "es:ESHttpGet",
+                    "es:ESHttpPost",
+                    "glacier:DescribeVault",
+                    "glacier:GetVaultLock",
+                    "glacier:InitiateJob",
+                    "logs:GetLogEvents",
+                    "logs:FilterLogEvents",
+                    "logs:DescribeLogStreams",
+                    "redshift:DescribeClusters",
+                    "redshift:DescribeTable",
+                    "rds:DescribeDBSnapshots",
+                    "rds:DownloadDBLogFilePortion",
+                    "rds:DescribeDBInstances",
+                    "s3:GetObject",
+                    "s3:GetObjectVersion"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}
