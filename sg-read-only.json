@@ -39,7 +39,7 @@
               "Version": "2012-10-17",
               "Statement": [
                 {
-                  "Sid":    "DenyReadOnlySecrets",
+                  "Sid": "DenyReadOnlySecrets",
                   "Effect": "Deny",
                   "Action": [
                     "cognito-identity:GetCredentialsForIdentity",
@@ -55,7 +55,7 @@
                   "Resource": "*"
                 },
                 {
-                  "Sid":    "DenyReadOnlyDataRetrieval",
+                  "Sid": "DenyReadOnlyDataRetrieval",
                   "Effect": "Deny",
                   "Action": [
                     "cloudtrail:LookupEvents",
