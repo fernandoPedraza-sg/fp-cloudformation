@@ -1,12 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Creates a role with restricted read-only access, preventing access to sensitive data in various AWS services.",
-  "Parameters": {
-    "AWSAccountIds": {
-      "Description": "The AWS Account ID where the role will be assumed from",
-      "Type": "String"
-    }
-  },
   "Resources": {
     "StratusGridReadOnlyRole": {
       "Type": "AWS::IAM::Role",
@@ -18,9 +12,7 @@
             {
               "Effect": "Allow",
               "Principal": {
-                "AWS": {
-                  "Fn::Sub": "arn:aws:iam::${AWSAccountIds}:root"
-                }
+                "AWS": "*"
               },
               "Action": "sts:AssumeRole"
             }
