@@ -1,0 +1,82 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "StackSet for deploying IAM roles across accounts and regions.",
+  "Parameters": {
+    "AWSAccountIds": {
+      "Description": "List of AWS Account IDs where this StackSet will be deployed",
+      "Type": "String"
+    },
+    "ReadOnlyTemplateS3URL": {
+      "Description": "S3 URL of the Read-Only IAM Role template",
+      "Type": "String"
+    },
+    "WriteRoleTemplateS3URL": {
+      "Description": "S3 URL of the Write IAM Role template",
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "StratusGridReadOnlyStackSet": {
+      "Type": "AWS::CloudFormation::StackSet",
+      "Properties": {
+        "Capabilities": [
+          "CAPABILITY_NAMED_IAM"
+        ],
+        "PermissionModel": "SELF_MANAGED",
+        "StackInstancesGroup": [
+          {
+            "DeploymentTargets": {
+              "Accounts": [
+                "973081273628"
+              ]
+            },
+            "Regions": [
+              "us-east-1"
+            ]
+          }
+        ],
+        "StackSetName": "StratusGridReadOnlyRoleStackSet",
+        "Parameters": [
+          {
+            "ParameterKey": "AWSAccountIds",
+            "ParameterValue": "973081273628"
+          }
+        ],
+        "TemplateURL": {
+          "Ref": "ReadOnlyTemplateS3URL"
+        }
+      }
+    },
+    "StratusGridWriteRoleStackSet": {
+      "Type": "AWS::CloudFormation::StackSet",
+      "Properties": {
+        "Capabilities": [
+          "CAPABILITY_NAMED_IAM"
+        ],
+        "PermissionModel": "SELF_MANAGED",
+        "StackInstancesGroup": [
+          {
+            "DeploymentTargets": {
+              "Accounts": [
+                "973081273628"
+              ]
+            },
+            "Regions": [
+              "us-east-1"
+            ]
+          }
+        ],
+        "StackSetName": "StratusGridWriteRoleStackSet",
+        "Parameters": [
+          {
+            "ParameterKey": "AWSAccountIds",
+            "ParameterValue": "973081273628"
+          }
+        ],
+        "TemplateURL": {
+          "Ref": "WriteRoleTemplateS3URL"
+        }
+      }
+    }
+  }
+}
