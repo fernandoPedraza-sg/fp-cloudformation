@@ -22,7 +22,7 @@
               "Effect": "Allow",
               "Principal": {
                 "AWS": {
-                  "Fn::Sub": "arn:aws:iam::${AWSAccountID}:root"
+                  "Fn::Sub": "arn:aws:iam::${AWSAccountIds}:root"
                 }
               },
               "Action": "sts:AssumeRole"
