@@ -2,16 +2,19 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Role with permissions to make changes in AWS services (except IAM). No IAM-related permissions included.",
     "Parameters": {
-        "AccountId": {
-            "Description": "The AWS Account ID where the role will be assumed.",
-            "Type": "String"
+        "AWSAccountID": {
+          "Description": "The AWS Account ID where the role will be assumed from",
+          "Type": "String",
+          "MinLength": "12",
+          "MaxLength": "12",
+          "ConstraintDescription": "Must be a 12-digit AWS account ID."
         }
-    },
+      },
     "Resources": {
         "StratusGridChangeManagementRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "RoleName": "StratusGridWriteRestricted",
+                "RoleName": "StratusGridWriteRestrictedRole",
                 "AssumeRolePolicyDocument": {
                     "Version": "2012-10-17",
                     "Statement": [
@@ -132,5 +135,13 @@
                 ]
             }
         }
-    }
+    },
+    "Outputs": {
+        "RoleArn": {
+          "Description": "ARN of the created StratusGridWriteRestrictedRole",
+          "Value": {
+            "Fn::GetAtt": ["StratusGridWriteRestrictedRole", "Arn"]
+          }
+        }
+      }
 }
