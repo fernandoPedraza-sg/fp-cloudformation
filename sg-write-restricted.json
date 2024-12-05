@@ -2,12 +2,9 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Role with permissions to make changes in AWS services (except IAM). No IAM-related permissions included.",
     "Parameters": {
-        "AWSAccountID": {
+        "AWSAccountIds": {
           "Description": "The AWS Account ID where the role will be assumed from",
-          "Type": "String",
-          "MinLength": "12",
-          "MaxLength": "12",
-          "ConstraintDescription": "Must be a 12-digit AWS account ID."
+          "Type": "String"
         }
       },
     "Resources": {
