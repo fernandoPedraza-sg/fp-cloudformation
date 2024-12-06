@@ -1,4 +1,24 @@
 
+This repository contains several AWS CloudFormation templates that enable StratusGrid cloud engineers to perform cost optimization assessments and remediations. During the assessment project phase, only read permissions are needed. After the assessment and approval of a remediation plan, additional write permissions will be required by engineers.
+
+# Files Description
+
+## AWS account deployment.
+
+The CloudFormation templates can be deployed to standalone AWS accounts, and these have the AWSAccountId as a unique parameter.
+
+- awsacc-sg-read-only.json: this CloudFormation template creates an IAM role with read-only permissions for the assessment phase of cost optimization projects.
+
+ - awsacc-sg-write-restricted.json: this CloudFormation template creates an IAM role with write permissions to specific AWS services for the assessment phase of cost optimization projects.
+
+## AWS organization deployment.
+
+The CloudFormation templates must be deployed in the management account of an AWS organization. These create resources in all AWS accounts that belong to either an organization or a specific organizational unit (OU).
+
+- ou-sg-read-only.json: this CloudFormation template creates an IAM role with read-only permissions for the assessment phase of cost optimization projects.
+
+- ou-sg-write-restricted.json: this CloudFormation template creates an IAM role with write permissions to specific AWS services for the assessment phase of cost optimization projects.
+
 # AWS Cloudformation StackSet creation instructions:
 
 - Navigate to the AWS Console and log in to your Management Account. Switch to the region where you want to deploy the StackSet.
@@ -19,7 +39,7 @@
 ![6](.images/Screenshot2024-12-05at4.53.11PM.png)
 - The StackSet will then deploy!
 
-Repite the CF stackset creation process for template "ou-sg-write-restricted.json"
+Repeat the CF stackset creation process for template "ou-sg-write-restricted.json"
 
 ![7](.images/Screenshot2024-12-05at5.02.07PM.png)
 
