@@ -13,7 +13,7 @@ The CloudFormation templates can be deployed to standalone AWS accounts, and the
 
 ## AWS organization deployment.
 
-The CloudFormation templates must be deployed to the management account of an AWS organization. These create resources in all AWS accounts that belong to a specific organizational unit (OU) or an organization.
+The CloudFormation templates must be deployed in the management account of an AWS organization. These create resources in all AWS accounts that belong to either an organization or a specific organizational unit (OU).
 
 - ou-sg-read-only.json: this CloudFormation template creates an IAM role with read-only permissions for the assessment phase of cost optimization projects.
 
